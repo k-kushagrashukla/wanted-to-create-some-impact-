@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Plateform</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <h1> Project Platform</h1>
+
+    <div class="form-container">
+        <h2>Add a Project</h2>
+        <input id="title" placeholder="Project title"/>
+        <input id="description" placeholder="Project description"/>
+        <input id="creatorName" placeholder="Creator Name"/>
+        <input id="repoLink" placeholder="Repo Link"/>
+        <input id="packageGot" placeholder="Package(exmaple:40 LPA)"/>
+        <input id="year" placeholder="Year(1-4)"/>
+        <input id="techStack" placeholder="Tech Stack (Comma Seprated)"/>
+        <button onclick="addProject()">Add Project</button>
+    </div>
+
+    <h2>All projects</h2>
+    <div id="projects" class="projects"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

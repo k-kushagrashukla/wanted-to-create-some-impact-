@@ -1,0 +1,14 @@
+:root{--max:1000px;--card-bg:#fff;--muted:#666}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Arial;margin:0;background:#f3f4f6;color:#111}
+.container{max-width:var(--max);margin:24px auto;padding:0 16px}
+header{background:#0b74de;color:white;padding:12px 0}
+header .container{display:flex;justify-content:space-between;align-items:center}
+nav button{margin-left:8px;padding:8px 12px;border-radius:6px;border:none;cursor:pointer}
+.card{background:var(--card-bg);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);margin:18px 0}
+input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin:8px 0}
+button{background:#0b74de;color:white;padding:10px;border-radius:8px;border:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.project-card{border:1px solid #eee;padding:12px;border-radius:10px;background:white}
+.project-card img{max-width:100%;border-radius:8px;margin-bottom:8px}
+.small{font-size:13px;color:var(--muted)}

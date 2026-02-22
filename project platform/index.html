@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Platform</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Academic Project Showcase</h1>
+            <nav>
+                <button id="btn-show-register">Register</button>
+                <button id="btn-show-login">Login</button>
+                <button id="btn-logout" style="display:none">Logout</button>
+                <button id="btn-admin" style="display:none">Admin</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="auth-section" class="card">
+            <div id="regsiter-form" style="display:none">
+                <h3>Register</h3>
+                <input id="r_name" placeholder="Name"/>
+                <input id="r_email" placeholder="email"/>
+                <input id="r_password" placeholder="Password" type="password"/>
+                <input id="r_college" palceholder="college"/>
+                <button id="r_submit">Register</button>
+            </div>
+
+            <div id="login-form" style="display:none">
+                <h3>Login</h3>
+                <input id="l_email" placeholder="Email"/>
+                <input id="l_password" placeholder="Password" type="password"/>
+                <button id="l_submit">Login</button>
+            </div>
+        </section>
+
+        <section id="add-project" class="card">
+            <h3>Add project</h3>
+            <input id="title" placeholder="Title"/>
+            <textare id="description" placeholder="Description"></textare>
+            <input id="techStack" placeholder="Tech stack (comma seprated)" />
+            <input id="repoLink" placeholder="Repo link" />
+            <input id="liveLink" placeholder="Live link (optional)" />
+            <input id="year" placeholder="Year (1-4)" />
+            <input id="packageGot" placeholder="Package (e.g., 40 LPA)" />
+            <input id="banner" type="file" accept="image/*" />
+            <button id="addProjectBtn">Add Project</button>
+        </section>
+
+        <section class="card">
+            <h3>Search & Filters</h3>
+            <input id="searchQ" placeholder="Search title/desc/creator"/>
+            <input id="filterYear" placeholder="Year"/>
+            <input id="filterTech" placeholder="Tech (comma seprated)"/>
+            <select id="sortBy">
+                <option value="createdAt">Newest</option>
+                <option value="year">Year</option>
+            </select>
+            <select id="order"><otion value="desc">Desc</option><option value="asc">Asc</option></select>
+            <button id="applyfilters">Apply</button> 
+        </section>
+
+        <section class="card">
+            <h3>Projects</h3>
+            <div id="projects" class="grid"></div>
+        </section>
+
+        <section id="admin-panel" class="card" style="display:none">
+            <h3>Admin Panel</h3>
+            <div id="admin-users"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
