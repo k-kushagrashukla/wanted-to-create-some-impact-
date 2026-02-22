@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeniorProjects</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">🎓 SeniorProjects</div>
+  <div class="nav-actions">
+    <button class="icon-btn">🌙</button>
+    <button class="signin-btn">Sign In</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Discover Senior Projects From Top Engineers</div>
+  <h1>
+    Find Your Next <span class="highlight">Project</span> Idea<br>
+    From seniors 
+  </h1>
+  <p>
+    Browse projects from engineering students across the globe.
+    See what seniors built and get inspired.
+  </p>
+
+  <div class="stats">
+    <div><span>50+</span><p>Projects</p></div>
+    <div><span>2+</span><p>States</p></div>
+    <div><span>50+</span><p>LPA Avg</p></div>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<section class="filters">
+  <button class="filter active" data-year="All">All Years</button>
+  <button class="filter" data-year="1">1st Year</button>
+  <button class="filter" data-year="2">2nd Year</button>
+  <button class="filter" data-year="3">3rd Year</button>
+  <button class="filter" data-year="4">4th Year</button>
+</section>
+
+<!-- GRID -->
+<section class="grid" id="projectGrid"></section>
+
+<!-- PROJECT MODAL -->
+<div id="projectModal" class="modal hidden">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeProjectModal()">X</button>
+
+    <h2 id="modalTitle"></h2>
+    <div id="modalBadges" class="modal-badges"></div>
+
+    <h3>About This Project</h3>
+    <p id="modalDesc"></p>
+
+    <h3>Technologies Used</h3>
+    <div id="modalTech" class="tags"></div>
+
+    <h3>Created By</h3>
+    <div class="creator">
+      <strong id="modalName"></strong>
+      <p id="modalLocation"></p>
+    </div>
+
+    <div class="modal-buttons">
+      <a id="modalGithub" target="_blank">🐙 View on Github</a>
+      <a id="modalDemo" target="_blank">🚀 Live Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal hidden">
+  <div class="modal-content auth-box">
+    <button class="close-btn" onclick="closeAuth()">X</button>
+
+    <div id="loginForm">
+      <h2>Welcome Back</h2>
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button class="primary-btn">Sign In</button>
+      <p class="switch-text">Don't have an account?
+        <span onclick="showSignup()">Sign up</span>
+      </p>
+    </div>
+
+    <div id="signupForm" class="hidden">
+      <h2>Create Account</h2>
+      <input type="text" placeholder="Full Name">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button class="primary-btn">Create Account</button>
+      <p class="switch-text">Already have an account?
+        <span onclick="showLogin()">Sign in</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
