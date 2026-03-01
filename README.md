@@ -17,3 +17,6 @@ let's gooooooooo
 - then they can delete that from their computer , but can downlaod it from their server
 - very basic thing just building my first server
 <img width="673" height="497" alt="Screenshot 2026-02-27 110249" src="https://github.com/user-attachments/assets/4b18bd97-ad00-4b39-8277-9124eaab714f" />
+
+## 2) Movie Server
+
