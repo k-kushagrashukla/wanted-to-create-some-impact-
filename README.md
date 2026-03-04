@@ -9,7 +9,7 @@ i leanred some things late , that's why my starting projects are more about clon
 
 Overall i started somehow by just one feeling to create some impact 
 
-let's gooooooooo
+# let's gooooooooo  😏
 
 ----
 ## 1) Anything Server
@@ -49,5 +49,11 @@ about the cost for db or how much code or songs i need to download or write
 <img width="777" height="840" alt="image" src="https://github.com/user-attachments/assets/1513d5ab-3def-445e-8043-63e83e96b769" />
 
 ## 4) Women Safety detection System 
+- I work on a many OpenCV projects but the famous one , the good one is that system where if we devlop perfectly and do the real world test then it can become one of the finest and necessary projects
+- I build this project just for fun , bcz i have seen someone using CV for women safety , so i just try to build something more good and helpful
+- At that time when i was in my 5th sem , this was the peak time bcz everyone is grinding **dsa** where i'm just trying to play with CV and build some real world projects
+<img width="1919" height="884" alt="image" src="https://github.com/user-attachments/assets/73f92e18-f596-4fd7-b143-f0bb3312d0d6" />
+- https://github.com/k-kushagrashukla/women-safety-detection-system.git
 
+## 5) 
 
