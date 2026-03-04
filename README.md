@@ -57,4 +57,10 @@ about the cost for db or how much code or songs i need to download or write
 
 ## 5) Students Toolkit
 - I was thinking how can i generate a simple template for students , who wanted quick linkedin message , cover letter , or resume bullet genrator 
+for applying in internships , jobs ...
+- Right now the text which is generating is predefined by myself 🙂
+- It can definitely get better or i can say best by just adding ai , bcz ai will genrate better text than most of the humans right now
+<img width="1420" height="693" alt="Screenshot 2026-03-05 004836" src="https://github.com/user-attachments/assets/6592cf40-641e-4a3d-be21-b81aa547af18" />
+<img width="667" height="786" alt="Screenshot 2026-03-05 005017" src="https://github.com/user-attachments/assets/904a0179-3a7c-412a-ac21-8b86e605e74e" />
+
 
