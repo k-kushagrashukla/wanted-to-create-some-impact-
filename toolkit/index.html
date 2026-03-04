@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fresher Toolkit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Students Toolkit</h1>
+<p>Tools to help students get internships faster</p>
+
+<div class="cards">
+
+  <div class="card" onclick="openModal('cover')">
+    Cover Letter Generator
+  </div>
+
+  <div class="card" onclick="openModal('linkedin')">
+    LinkedIn Message Generator
+  </div>
+
+  <div class="card" onclick="openModal('resume')">
+    Resume Bullet Generator
+  </div>
+
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span onclick="closeModal()" class="close">&times;</span>
+    
+    <h2 id="modalTitle"></h2>
+
+    <input id="role" placeholder="Frontend Developer Intern">
+    <input id="company" placeholder="Razorpay">
+    <textarea id="details" placeholder="React, Node.js, MongoDB"></textarea>
+
+    <button onclick="generate()">Generate</button>
+
+    <textarea id="output" placeholder="Result will appear here"></textarea>
+    <button onclick="copyText()">Copy</button>
+
+  </div>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
