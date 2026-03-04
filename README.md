@@ -55,5 +55,6 @@ about the cost for db or how much code or songs i need to download or write
 <img width="1919" height="884" alt="image" src="https://github.com/user-attachments/assets/73f92e18-f596-4fd7-b143-f0bb3312d0d6" />
 - https://github.com/k-kushagrashukla/women-safety-detection-system.git
 
-## 5) 
+## 5) Students Toolkit
+- I was thinking how can i generate a simple template for students , who wanted quick linkedin message , cover letter , or resume bullet genrator 
 
