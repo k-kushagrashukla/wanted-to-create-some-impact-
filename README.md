@@ -57,4 +57,27 @@ about the cost for db or how much code or songs i need to download or write
 
 ## 5) Students Toolkit
 - I was thinking how can i generate a simple template for students , who wanted quick linkedin message , cover letter , or resume bullet genrator 
+for applying in internships , jobs ...
+- Right now the text which is generating is predefined by myself 🙂
+- It can definitely get better or i can say best by just adding ai , bcz ai will genrate better text than most of the humans right now
+- link : https://students-toolkit.vercel.app/
+<img width="1420" height="693" alt="Screenshot 2026-03-05 004836" src="https://github.com/user-attachments/assets/6592cf40-641e-4a3d-be21-b81aa547af18" />
+<img width="667" height="786" alt="Screenshot 2026-03-05 005017" src="https://github.com/user-attachments/assets/904a0179-3a7c-412a-ac21-8b86e605e74e" />
+
+## 6) Portfolio Site
+- the problem with my geneartion or you can say the problem with most of the people out there is - some people wanted to showcase what they build , but some people does'nt want that ( they think like their project or portfolio will get copy , so they'll only show to the recruiter 🙂)
+- that's why most of the people in my batch is like " i will show project ot portfolio but only to the recruiter
+- But as i always wanted to build things fast - shown in public - create some impact - so i was thinking like what to build ?? ( as i know already that i need to build portfollio , but i want something diff, which people look up to )
+- so i started searching , diff portfolios to get some idea ( sometimes i also don't get a good idea 😭). Hence after a lot of search i got one site , for which i think , i can build something like this
+- then i started coding for my portfolio site , ( but as i want things fast and wanted to showcase things fast ) . coding becomes really difficult at this time , bcz you are building portfolio for u personally that's why more ideas / thoughts are coming that i can add this , or that .
+- i will not lie , but as i was in a hurry , i build something which is definitely not a "lookup to site"
+- it's a site which showcase my name , who i am , and what projects i build
+- and in my batchmate , i really got appreciated - for my portfolio , but in reality i know from my heart - that this site is nothing but a trash
+- so i just made that site , but never really publish it on linkedin / twitter .
+- i leave that site after building it , and never opened again ( with a mindset that , this can't be my site )
+- link : https://portfolio-website-qv6r.vercel.app/
+<img width="1919" height="870" alt="image" src="https://github.com/user-attachments/assets/2f28b190-957c-4d87-b9dd-350f9cc40665" />
+<img width="1918" height="869" alt="image" src="https://github.com/user-attachments/assets/6721a4f0-8226-4d32-86e5-3b36bdc68790" />
+
+
 
