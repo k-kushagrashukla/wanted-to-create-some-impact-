@@ -79,5 +79,8 @@ for applying in internships , jobs ...
 <img width="1919" height="870" alt="image" src="https://github.com/user-attachments/assets/2f28b190-957c-4d87-b9dd-350f9cc40665" />
 <img width="1918" height="869" alt="image" src="https://github.com/user-attachments/assets/6721a4f0-8226-4d32-86e5-3b36bdc68790" />
 
+## 7) first chrome extension
+
+
 
 
