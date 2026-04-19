@@ -66,7 +66,7 @@ for applying in internships , jobs ...
 
 ## 6) Portfolio Site
 - the problem with my geneartion or you can say the problem with most of the people out there is - some people wanted to showcase what they build , but some people does'nt want that ( they think like their project or portfolio will get copy , so they'll only show to the recruiter 🙂)
-- that's why most of the people in my batch is like " i will show project ot portfolio but only to the recruiter
+- that's why most of the people in my batch is like " i will show project or portfolio but only to the recruiter
 - But as i always wanted to build things fast - shown in public - create some impact - so i was thinking like what to build ?? ( as i know already that i need to build portfollio , but i want something diff, which people look up to )
 - so i started searching , diff portfolios to get some idea ( sometimes i also don't get a good idea 😭). Hence after a lot of search i got one site , for which i think , i can build something like this
 - then i started coding for my portfolio site , ( but as i want things fast and wanted to showcase things fast ) . coding becomes really difficult at this time , bcz you are building portfolio for u personally that's why more ideas / thoughts are coming that i can add this , or that .
