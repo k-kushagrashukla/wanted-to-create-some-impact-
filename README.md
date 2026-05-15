@@ -80,6 +80,16 @@ for applying in internships , jobs ...
 <img width="1918" height="869" alt="image" src="https://github.com/user-attachments/assets/6721a4f0-8226-4d32-86e5-3b36bdc68790" />
 
 ## 7) first chrome extension
+- this is the first thing i can say, which i build , which got into any live site , which people can use it , try it , rate it :)
+- i didn't use any other person idea or just wanted to build any chrome extension , the reality in this is while filling multiple google forms specially in desktop , i find it very difficult for eyes bcz everything is white and bright 
+- that time i started to think let's make something, which can convert this white shit into some dark page
+- that's how i started to learn about google chrome extension and how to make extension , how to publish it etc things 
+- so i build it - with the help of documentations,blogs,AI
+- after building i really got happy and proud that something which i build is on google chrome store 
+- but right after this , i understand nobody really wanted to try bcz there are already extensions which does same things , in a better way 
+- again same learning : the most difficult part is distribution 
+- but learned a lot 
+<img width="1917" height="870" alt="image" src="https://github.com/user-attachments/assets/20f172e0-d6eb-4518-9eac-b90be33797a0" />
 
 
 
