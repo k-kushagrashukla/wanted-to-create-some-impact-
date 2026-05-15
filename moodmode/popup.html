@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MoodMode</h1>
+        <p class="subtitle">Design your internet</p>
+
+        <div class="toggle-row">
+            <span>Enable Theme</span>
+            <label class="switch">
+                <input type="checkbox" id="enableToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="toggle-row">
+            <span>Apply Globally</span>
+            <label class="switch">
+                <input type="checkbox" id="globalToggle">
+                <psan class="slider"></psan>
+            </label>
+        </div>
+
+        <select id="themeSelect">
+            <option value="amoled">Amoled</option>
+            <option value="draculaInspired">Dracula Inspired</option>
+            <option value="hackerGreen">Hacker Green</option>
+            <option value="midnightBlue">Midnight Blue</option>
+            <option value="roseNight">Rose Night</option>
+        </select>
+    </div>
+
+
+    <script src="popup.js"></script>
+</body>
+</html>
