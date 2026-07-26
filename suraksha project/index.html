@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Suraksha — Stay Safe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L13.5 8H20L14.5 12L16.5 18.5L11 14.5L5.5 18.5L7.5 12L2 8H8.5L11 2Z" fill="#D4A847" stroke="#D4A847" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <span>Suraksha</span>
+      </div>
+      <div class="status-badge" id="statusBadge">Ready</div>
+    </header>
+
+    <!-- SCREEN: HOME -->
+    <div class="screen active" id="screen-home">
+
+      <div class="sos-zone">
+        <button class="sos-btn" id="sosBtn" onclick="handleSOS()">
+          <span class="sos-icon" id="sosIcon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="16" stroke="white" stroke-width="2"/>
+              <path d="M18 10V18L23 21" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="sos-label" id="sosLabel">TAP TO RECORD</span>
+          <span class="sos-sub" id="sosSub">tap again to send alert</span>
+        </button>
+        <div class="timer" id="timer" style="display:none">0:00</div>
+      </div>
+
+      <div class="quick-msg-wrap">
+        <label class="field-label">Quick message <span class="optional">(optional — type before you go out)</span></label>
+        <textarea class="field-input" id="quickMsg" placeholder="e.g. I'm near Metro Pillar 42, someone is following me in a red jacket..." rows="2"></textarea>
+      </div>
+
+      <div class="contacts-card">
+        <div class="card-header">
+          <span class="card-title">Emergency contacts</span>
+          <button class="add-btn" onclick="openModal()">+ Add</button>
+        </div>
+        <div id="contactList" class="contact-list"></div>
+        <div class="empty-contacts" id="emptyContacts">No contacts yet. Add your family or friends above.</div>
+      </div>
+
+      <div class="setup-note" id="emailSetupNote">
+        <span class="note-icon">⚙</span>
+        <span>Email not configured — <a href="#" onclick="openEmailSetup()">set up now</a></span>
+      </div>
+
+    </div>
+
+    <!-- SCREEN: CONFIRM SEND -->
+    <div class="screen" id="screen-confirm">
+      <div class="confirm-header">
+        <div class="confirm-icon">✓</div>
+        <div class="confirm-title">Alert ready to send</div>
+        <div class="confirm-sub">Email will go to all your emergency contacts instantly</div>
+      </div>
+
+      <div class="preview-card">
+        <div class="preview-label">Email preview</div>
+        <div class="preview-body" id="previewBody"></div>
+        <div class="preview-loc" id="previewLoc"></div>
+      </div>
+
+      <div class="confirm-contacts" id="confirmContacts"></div>
+
+      <div class="confirm-actions">
+        <button class="btn-send" id="sendBtn" onclick="sendAlert()">
+          <span id="sendBtnText">Send to everyone</span>
+        </button>
+        <button class="btn-back" onclick="goHome()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- SCREEN: SENT -->
+    <div class="screen" id="screen-sent">
+      <div class="sent-wrap">
+        <div class="sent-check">✓</div>
+        <div class="sent-title">Alert sent</div>
+        <div class="sent-sub">Your emergency contacts have been notified with your location and message.</div>
+        <div class="sent-contacts" id="sentContacts"></div>
+        <button class="btn-back" style="margin-top:2rem" onclick="goHome()">Back to home</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL: ADD CONTACT -->
+  <div class="modal-bg" id="contactModal">
+    <div class="modal">
+      <div class="modal-title">Add emergency contact</div>
+      <label class="field-label">Name</label>
+      <input class="field-input" type="text" id="cName" placeholder="e.g. Maa" />
+      <label class="field-label" style="margin-top:12px">Email address</label>
+      <input class="field-input" type="email" id="cEmail" placeholder="maa@gmail.com" />
+      <div class="modal-actions">
+        <button class="btn-back" onclick="closeModal()">Cancel</button>
+        <button class="btn-send" onclick="saveContact()">Add contact</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EMAIL SETUP -->
+  <div class="modal-bg" id="emailModal">
+    <div class="modal">
+      <div class="modal-title">Email setup (EmailJS)</div>
+      <p class="modal-desc">Suraksha uses EmailJS to send emails directly from the browser — no server needed. Free for 200 emails/month.</p>
+      <label class="field-label">EmailJS Public Key</label>
+      <input class="field-input" type="text" id="ejPublicKey" placeholder="your_public_key" />
+      <label class="field-label" style="margin-top:12px">Service ID</label>
+      <input class="field-input" type="text" id="ejServiceId" placeholder="service_xxxxxx" />
+      <label class="field-label" style="margin-top:12px">Template ID</label>
+      <input class="field-input" type="text" id="ejTemplateId" placeholder="template_xxxxxx" />
+      <p class="modal-desc" style="margin-top:12px">
+        <a href="https://www.emailjs.com" target="_blank">Get your free EmailJS keys →</a>
+      </p>
+      <div class="modal-actions">
+        <button class="btn-back" onclick="closeEmailSetup()">Cancel</button>
+        <button class="btn-send" onclick="saveEmailSetup()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

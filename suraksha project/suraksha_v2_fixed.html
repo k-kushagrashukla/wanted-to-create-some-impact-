@@ -1,0 +1,476 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  #app {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #0A0F1E;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    color: #E8E8F0;
+    position: relative;
+    overflow: hidden;
+  }
+  .top-bar { width:100%; display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+  .app-name { font-size:18px; font-weight:700; letter-spacing:.08em; color:#FF3B5C; }
+  .status-pill { font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid #1A2040; color:#888; background:#111827; transition:all .3s; }
+  .status-pill.listening { border-color:#22c55e; color:#22c55e; background:#052010; }
+  .status-pill.recording { border-color:#FF3B5C; color:#FF3B5C; background:#1a0510; animation:blink 1s infinite; }
+  .status-pill.sending { border-color:#f59e0b; color:#f59e0b; background:#1a1005; }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:.5} }
+  .screen { width:100%; display:none; flex-direction:column; align-items:center; }
+  .screen.active { display:flex; }
+  .orb-wrap { position:relative; width:180px; height:180px; display:flex; align-items:center; justify-content:center; margin:1rem 0 1.5rem; cursor:pointer; user-select:none; }
+  .orb-ring { position:absolute; border-radius:50%; border:1.5px solid rgba(255,59,92,.15); }
+  .orb-ring.r1 { width:180px; height:180px; }
+  .orb-ring.r2 { width:148px; height:148px; border-color:rgba(255,59,92,.25); }
+  .orb-ring.pulse { animation:ripple 1.5s ease-out infinite; }
+  .orb-ring.r2.pulse { animation:ripple 1.5s ease-out infinite .4s; }
+  @keyframes ripple { 0%{transform:scale(.95);opacity:1}100%{transform:scale(1.12);opacity:0} }
+  .orb { width:118px; height:118px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; transition:transform .15s,background .3s; z-index:1; }
+  .orb:active { transform:scale(.96); }
+  .orb.idle { background:#1A2040; border:2px solid #FF3B5C; cursor:pointer; }
+  .orb.listening-orb { background:#052010; border:2px solid #22c55e; }
+  .orb.recording-orb { background:#FF3B5C; }
+  .orb-icon { font-size:28px; color:#fff; line-height:1; }
+  .orb-label { font-size:10px; font-weight:600; letter-spacing:.12em; color:rgba(255,255,255,.8); text-transform:uppercase; }
+  .instruction { font-size:14px; color:#8899BB; text-align:center; line-height:1.6; max-width:300px; margin-bottom:1.25rem; }
+  .instruction strong { color:#E8E8F0; font-weight:600; }
+  .contact-section { width:100%; background:#111827; border-radius:12px; padding:.875rem 1rem; margin-bottom:.75rem; border:1px solid #1A2040; }
+  .section-label { font-size:10px; font-weight:600; letter-spacing:.1em; color:#556; text-transform:uppercase; margin-bottom:.625rem; }
+  .contact-row { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid #1A2040; }
+  .contact-row:last-child { border-bottom:none; }
+  .contact-avatar { width:28px; height:28px; border-radius:50%; background:#1A2040; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#FF3B5C; flex-shrink:0; }
+  .contact-name { font-size:13px; color:#CCD; flex:1; }
+  .contact-num { font-size:11px; color:#556; }
+  .add-contact-btn { width:100%; padding:7px; border-radius:8px; border:1px dashed #1A2040; background:transparent; color:#556; font-size:12px; cursor:pointer; margin-top:7px; font-family:inherit; transition:border-color .2s; }
+  .add-contact-btn:hover { border-color:#FF3B5C; color:#FF3B5C; }
+
+  .help-indicators { display:flex; gap:12px; margin-bottom:1rem; }
+  .help-dot { width:44px; height:44px; border-radius:50%; border:2px solid #1A2040; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#334; transition:all .2s; }
+  .help-dot.hit { border-color:#FF3B5C; background:#FF3B5C; color:#fff; animation:pop .3s ease; }
+  @keyframes pop { 0%{transform:scale(.8)}60%{transform:scale(1.15)}100%{transform:scale(1)} }
+
+  .transcript-box { width:100%; background:#111827; border-radius:12px; padding:.875rem 1rem; border:1px solid #1A2040; min-height:70px; margin-bottom:.875rem; }
+  .transcript-text { font-size:13px; color:#CCD; line-height:1.7; font-style:italic; }
+  .transcript-text.placeholder { color:#334; font-style:normal; }
+  .keyword-flash { display:inline-block; background:rgba(255,59,92,.15); color:#FF3B5C; padding:1px 5px; border-radius:4px; font-style:normal; font-weight:600; }
+  .timer { font-size:32px; font-weight:700; color:#FF3B5C; letter-spacing:.05em; margin-bottom:.5rem; }
+  .action-btn { padding:12px 32px; border-radius:10px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; border:none; transition:transform .15s,opacity .2s; }
+  .action-btn:active { transform:scale(.97); }
+  .btn-stop { background:#FF3B5C; color:#fff; width:100%; padding:13px; margin-bottom:.625rem; }
+  .btn-start { background:#FF3B5C; color:#fff; width:100%; padding:13px; margin-bottom:.625rem; }
+  .btn-secondary { background:#111827; color:#8899BB; border:1px solid #1A2040; font-size:12px; padding:9px 20px; }
+  .wa-preview { width:100%; background:#111827; border-radius:12px; padding:.875rem 1rem; border:1px solid #1A2040; margin-bottom:.75rem; }
+  .wa-header { display:flex; align-items:center; gap:8px; margin-bottom:.625rem; }
+  .wa-dot { width:7px; height:7px; border-radius:50%; background:#22c55e; }
+  .wa-title { font-size:11px; color:#556; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+  .wa-message { font-size:12px; color:#CCD; line-height:1.7; background:#0A0F1E; border-radius:8px; padding:8px 10px; border-left:3px solid #22c55e; }
+  .wa-links { display:flex; flex-direction:column; gap:7px; margin-top:.875rem; }
+  .wa-link { display:flex; align-items:center; justify-content:space-between; padding:9px 12px; border-radius:8px; background:#052010; border:1px solid #0a3020; text-decoration:none; transition:background .2s; }
+  .wa-link:hover { background:#073018; }
+  .wa-link-name { font-size:13px; color:#CCD; }
+  .wa-link-action { font-size:11px; color:#22c55e; font-weight:600; }
+  .voice-bars { display:flex; align-items:flex-end; gap:3px; height:22px; margin-bottom:4px; }
+  .bar { width:4px; background:#fff; border-radius:2px; animation:wave .7s ease-in-out infinite; }
+  .bar:nth-child(1){animation-delay:0s;height:7px}.bar:nth-child(2){animation-delay:.1s;height:14px}.bar:nth-child(3){animation-delay:.2s;height:22px}.bar:nth-child(4){animation-delay:.3s;height:14px}.bar:nth-child(5){animation-delay:.4s;height:7px}
+  @keyframes wave { 0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)} }
+  .debug-bar { width:100%; background:#0A0F1E; border:1px solid #1A2040; border-radius:8px; padding:8px 10px; margin-bottom:.75rem; font-size:11px; color:#334; font-family:monospace; min-height:32px; word-break:break-all; }
+  .debug-bar span { color:#22c55e; }
+  .modal-overlay { position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;border-radius:16px;z-index:10; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:#111827;border-radius:14px;padding:1.25rem;width:270px;border:1px solid #1A2040; }
+  .modal-title { font-size:15px;font-weight:700;color:#E8E8F0;margin-bottom:.875rem; }
+  .modal input { width:100%;background:#0A0F1E;border:1px solid #1A2040;border-radius:8px;padding:9px 10px;color:#E8E8F0;font-size:13px;font-family:inherit;margin-bottom:8px;outline:none; }
+  .modal input:focus { border-color:#FF3B5C; }
+  .modal-actions { display:flex;gap:8px;margin-top:.375rem; }
+  .modal-actions button { flex:1;padding:9px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none; }
+  .btn-cancel { background:#1A2040;color:#8899BB; }
+  .btn-add { background:#FF3B5C;color:#fff; }
+  .sensitivity-row { display:flex; align-items:center; gap:8px; margin-bottom:.875rem; width:100%; }
+  .sensitivity-row label { font-size:11px; color:#556; white-space:nowrap; }
+  .sensitivity-row input[type=range] { flex:1; }
+  .sensitivity-val { font-size:11px; color:#FF3B5C; font-weight:700; min-width:24px; }
+</style>
+
+<div id="app">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden">Suraksha women safety SOS app</h2>
+  <div class="top-bar">
+    <div class="app-name">SURAKSHA</div>
+    <div class="status-pill" id="statusPill">Standby</div>
+  </div>
+
+  <div class="screen active" id="screen-home">
+    <div class="orb-wrap" onclick="startListening()">
+      <div class="orb-ring r1"></div>
+      <div class="orb-ring r2"></div>
+      <div class="orb idle">
+        <i class="ti ti-microphone orb-icon" aria-hidden="true"></i>
+        <span class="orb-label">Tap to arm</span>
+      </div>
+    </div>
+    <p class="instruction">Tap above, then say <strong>"help help"</strong> twice — even in a whisper. Recording starts instantly. Say <strong>"done"</strong> to send.</p>
+    <div class="contact-section">
+      <div class="section-label">Emergency contacts</div>
+      <div id="contactList"></div>
+      <button class="add-contact-btn" onclick="openModal()">+ Add contact</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-listening">
+    <div class="orb-wrap">
+      <div class="orb-ring r1 pulse"></div>
+      <div class="orb-ring r2 pulse"></div>
+      <div class="orb listening-orb">
+        <i class="ti ti-ear orb-icon" style="color:#22c55e" aria-hidden="true"></i>
+        <span class="orb-label" style="color:#22c55e">Armed</span>
+      </div>
+    </div>
+    <p style="font-size:13px;color:#556;margin-bottom:.75rem;text-align:center">Say <strong style="color:#FF3B5C">"help"</strong> twice — whisper is fine</p>
+    <div class="help-indicators">
+      <div class="help-dot" id="dot1">1</div>
+      <div class="help-dot" id="dot2">2</div>
+    </div>
+    <div class="debug-bar" id="debugBar">Waiting for voice...</div>
+    <div class="transcript-box">
+      <div class="transcript-text placeholder" id="listenTranscript">Mic is live — speak now</div>
+    </div>
+    <button class="action-btn btn-secondary" onclick="cancelAll()">Cancel</button>
+  </div>
+
+  <div class="screen" id="screen-recording">
+    <div class="orb-wrap">
+      <div class="orb-ring r1 pulse"></div>
+      <div class="orb-ring r2 pulse"></div>
+      <div class="orb recording-orb">
+        <div class="voice-bars">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <span class="orb-label">Recording</span>
+      </div>
+    </div>
+    <div class="timer" id="timerDisplay">0:00</div>
+    <div class="debug-bar" id="debugRec">Say "done" to finish and send alert</div>
+    <div class="transcript-box">
+      <div class="transcript-text" id="recordTranscript">Speak — describe your location and situation...</div>
+    </div>
+    <button class="action-btn btn-stop" onclick="stopRecording()">
+      <i class="ti ti-send" aria-hidden="true"></i> Done — Send alert
+    </button>
+    <button class="action-btn btn-secondary" onclick="cancelAll()">Cancel</button>
+  </div>
+
+  <div class="screen" id="screen-send">
+    <div style="margin:1rem 0 .75rem;text-align:center">
+      <div style="font-size:13px;color:#556;margin-bottom:.375rem">Message ready — open each contact, tap send</div>
+    </div>
+    <div class="wa-preview">
+      <div class="wa-header"><div class="wa-dot"></div><div class="wa-title">Message preview</div></div>
+      <div class="wa-message" id="waMessagePreview"></div>
+    </div>
+    <div class="wa-links" id="waLinks"></div>
+    <button class="action-btn btn-secondary" style="margin-top:.875rem;width:100%" onclick="resetApp()">Back to home</button>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-title">Add emergency contact</div>
+      <input type="text" id="contactNameInput" placeholder="Name (e.g. Maa)" />
+      <input type="tel" id="contactNumInput" placeholder="WhatsApp number (+91...)" />
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-add" onclick="saveContact()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let contacts = [
+  { name: 'Maa', num: '+919876543210' },
+  { name: 'Papa', num: '+919876543211' }
+];
+let recognition = null;
+let mediaRecorder = null;
+let audioChunks = [];
+let timerInterval = null;
+let seconds = 0;
+let transcriptFull = '';
+let helpCount = 0;
+let currentLocation = null;
+let isListening = false;
+let isRecording = false;
+let accumulatedText = '';
+
+function renderContacts() {
+  document.getElementById('contactList').innerHTML = contacts.map(c =>
+    `<div class="contact-row">
+      <div class="contact-avatar">${c.name[0].toUpperCase()}</div>
+      <div class="contact-name">${c.name}</div>
+      <div class="contact-num">${c.num}</div>
+    </div>`
+  ).join('');
+}
+
+function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('contactNameInput').value = '';
+  document.getElementById('contactNumInput').value = '';
+}
+function saveContact() {
+  const name = document.getElementById('contactNameInput').value.trim();
+  const num = document.getElementById('contactNumInput').value.trim();
+  if (!name || !num) return;
+  contacts.push({ name, num });
+  renderContacts();
+  closeModal();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function setStatus(text, cls) {
+  const p = document.getElementById('statusPill');
+  p.textContent = text;
+  p.className = 'status-pill ' + (cls || '');
+}
+
+function getLocation() {
+  return new Promise(resolve => {
+    if (!navigator.geolocation) { resolve(null); return; }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve({ lat: p.coords.latitude.toFixed(5), lng: p.coords.longitude.toFixed(5) }),
+      () => resolve(null),
+      { timeout: 4000, maximumAge: 60000 }
+    );
+  });
+}
+
+function stopCurrentRecognition() {
+  if (recognition) {
+    try { recognition.onend = null; recognition.onresult = null; recognition.onerror = null; recognition.stop(); } catch(e) {}
+    recognition = null;
+  }
+}
+
+function containsHelp(text) {
+  const t = text.toLowerCase().replace(/[^a-z\s]/g, '');
+  return /\b(help|hel|hlp|elp|halp|hepl|hep)\b/.test(t);
+}
+
+function containsDone(text) {
+  const t = text.toLowerCase().replace(/[^a-z\s]/g, '');
+  return /\b(done|don|dun|send|finish|stop|over)\b/.test(t);
+}
+
+function startListening() {
+  if (contacts.length === 0) { alert('Add at least one emergency contact first.'); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Voice recognition needs Chrome browser. Please open this in Chrome.'); return; }
+
+  helpCount = 0;
+  isListening = true;
+  showScreen('listening');
+  setStatus('Armed', 'listening');
+  document.getElementById('dot1').classList.remove('hit');
+  document.getElementById('dot2').classList.remove('hit');
+  document.getElementById('debugBar').innerHTML = 'Mic live — say <span>help help</span>';
+  document.getElementById('listenTranscript').textContent = 'Listening...';
+
+  function spawnListenSession() {
+    if (!isListening) return;
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 5;
+    recognition.lang = 'en-IN';
+
+    recognition.onstart = () => {
+      document.getElementById('debugBar').innerHTML = '<span>Mic active</span> — say help help';
+    };
+
+    recognition.onresult = (event) => {
+      let allText = '';
+      for (let i = 0; i < event.results.length; i++) {
+        for (let j = 0; j < event.results[i].length; j++) {
+          allText += ' ' + event.results[i][j].transcript;
+        }
+      }
+      allText = allText.trim();
+      document.getElementById('listenTranscript').textContent = allText || '...';
+      document.getElementById('debugBar').innerHTML = `Heard: <span>${allText}</span>`;
+
+      if (containsHelp(allText)) {
+        if (helpCount < 2) {
+          helpCount++;
+          if (helpCount >= 1) document.getElementById('dot1').classList.add('hit');
+          if (helpCount >= 2) document.getElementById('dot2').classList.add('hit');
+          document.getElementById('debugBar').innerHTML = `<span>HELP ${helpCount}/2 detected!</span>`;
+        }
+        if (helpCount >= 2) {
+          isListening = false;
+          stopCurrentRecognition();
+          setTimeout(beginRecording, 100);
+          return;
+        }
+      }
+    };
+
+    recognition.onend = () => {
+      if (isListening) {
+        setTimeout(spawnListenSession, 80);
+      }
+    };
+
+    recognition.onerror = (e) => {
+      document.getElementById('debugBar').innerHTML = `Error: <span>${e.error}</span> — retrying`;
+      if (isListening) setTimeout(spawnListenSession, 300);
+    };
+
+    try { recognition.start(); } catch(e) {
+      if (isListening) setTimeout(spawnListenSession, 500);
+    }
+  }
+
+  spawnListenSession();
+}
+
+async function beginRecording() {
+  isRecording = true;
+  showScreen('recording');
+  setStatus('Recording', 'recording');
+  document.getElementById('recordTranscript').textContent = 'Speak now — describe where you are...';
+  document.getElementById('debugBar').textContent = 'Fetching location...';
+
+  currentLocation = await getLocation();
+
+  const locStr = currentLocation
+    ? `📍 maps.google.com/?q=${currentLocation.lat},${currentLocation.lng}`
+    : 'Location unavailable';
+  document.getElementById('debugBar').innerHTML = `Location: <span>${locStr}</span>`;
+
+  seconds = 0;
+  document.getElementById('timerDisplay').textContent = '0:00';
+  timerInterval = setInterval(() => {
+    seconds++;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2, '0');
+  }, 1000);
+
+  accumulatedText = '';
+
+  function spawnRecordSession() {
+    if (!isRecording) return;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 3;
+    recognition.lang = 'en-IN';
+
+    recognition.onresult = (event) => {
+      let interim = '';
+      let finalChunk = '';
+      for (let i = 0; i < event.results.length; i++) {
+        const t = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalChunk += t + ' ';
+          if (containsDone(t)) {
+            isRecording = false;
+            stopCurrentRecognition();
+            clearInterval(timerInterval);
+            accumulatedText += finalChunk;
+            transcriptFull = accumulatedText.trim();
+            showSendScreen();
+            return;
+          }
+        } else {
+          interim += t;
+        }
+      }
+      const displayText = accumulatedText + finalChunk + interim;
+      document.getElementById('recordTranscript').textContent = displayText || 'Listening...';
+      document.getElementById('debugBar').innerHTML = `Live: <span>${interim || '...'}</span>`;
+      if (finalChunk) accumulatedText += finalChunk;
+    };
+
+    recognition.onend = () => {
+      if (isRecording) {
+        setTimeout(spawnRecordSession, 80);
+      }
+    };
+
+    recognition.onerror = (e) => {
+      document.getElementById('debugBar').innerHTML = `Mic error: <span>${e.error}</span> — retrying`;
+      if (isRecording) setTimeout(spawnRecordSession, 300);
+    };
+
+    try { recognition.start(); } catch(e) {
+      if (isRecording) setTimeout(spawnRecordSession, 400);
+    }
+  }
+
+  spawnRecordSession();
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.start();
+  } catch(e) {}
+}
+
+function stopRecording() {
+  isRecording = false;
+  clearInterval(timerInterval);
+  stopCurrentRecognition();
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  transcriptFull = accumulatedText.trim();
+  showSendScreen();
+}
+
+function cancelAll() {
+  isListening = false;
+  isRecording = false;
+  clearInterval(timerInterval);
+  stopCurrentRecognition();
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  showScreen('home');
+  setStatus('Standby', '');
+}
+
+function showSendScreen() {
+  setStatus('Ready to send', 'sending');
+  showScreen('send');
+  const locText = currentLocation
+    ? `https://maps.google.com/?q=${currentLocation.lat},${currentLocation.lng}`
+    : 'Location unavailable';
+  const msg = `🚨 EMERGENCY — I need help right now!\n\n📍 My location:\n${locText}\n\n🗣 My message:\n"${transcriptFull || 'No voice message recorded'}"\n\nPlease call me or come immediately.`;
+  document.getElementById('waMessagePreview').textContent = msg;
+  const encoded = encodeURIComponent(msg);
+  document.getElementById('waLinks').innerHTML = contacts.map(c => {
+    const num = c.num.replace(/[^0-9]/g, '');
+    return `<a class="wa-link" href="https://wa.me/${num}?text=${encoded}" target="_blank">
+      <span class="wa-link-name">${c.name} <span style="color:#556;font-size:11px">${c.num}</span></span>
+      <span class="wa-link-action">Open WhatsApp →</span>
+    </a>`;
+  }).join('');
+}
+
+function resetApp() {
+  transcriptFull = ''; currentLocation = null; helpCount = 0; seconds = 0;
+  isRecording = false; isListening = false; accumulatedText = '';
+  showScreen('home'); setStatus('Standby', '');
+}
+
+renderContacts();
+</script>

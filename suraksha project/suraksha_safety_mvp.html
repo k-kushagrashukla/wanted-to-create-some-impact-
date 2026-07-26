@@ -1,0 +1,697 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  #app {
+    font-family: 'Space Grotesk', var(--font-sans), sans-serif;
+    background: #0A0F1E;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    color: #E8E8F0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .app-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #FF3B5C;
+  }
+
+  .status-pill {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid #1A2040;
+    color: #888;
+    background: #111827;
+    transition: all 0.3s;
+  }
+
+  .status-pill.listening { border-color: #22c55e; color: #22c55e; background: #052010; }
+  .status-pill.recording { border-color: #FF3B5C; color: #FF3B5C; background: #1a0510; animation: blink 1s infinite; }
+  .status-pill.sending { border-color: #f59e0b; color: #f59e0b; background: #1a1005; }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  .screen { width: 100%; display: none; flex-direction: column; align-items: center; }
+  .screen.active { display: flex; }
+
+  .orb-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0 2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .orb-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,59,92,0.15);
+    animation: none;
+  }
+  .orb-ring.r1 { width: 200px; height: 200px; }
+  .orb-ring.r2 { width: 165px; height: 165px; border-color: rgba(255,59,92,0.25); }
+
+  .orb-ring.pulse { animation: ripple 2s ease-out infinite; }
+  .orb-ring.r2.pulse { animation: ripple 2s ease-out infinite 0.5s; }
+
+  @keyframes ripple {
+    0% { transform: scale(0.95); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 0; }
+  }
+
+  .orb {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #FF3B5C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.15s, background 0.3s;
+    z-index: 1;
+  }
+
+  .orb:active { transform: scale(0.96); }
+  .orb.idle { background: #1A2040; border: 2px solid #FF3B5C; }
+  .orb.listening-orb { background: #052010; border: 2px solid #22c55e; }
+  .orb.recording-orb { background: #FF3B5C; }
+  .orb.done-orb { background: #052010; border: 2px solid #22c55e; }
+
+  .orb-icon { font-size: 32px; color: #fff; line-height: 1; }
+  .orb-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.8); text-transform: uppercase; }
+
+  .instruction {
+    font-size: 15px;
+    color: #8899BB;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+  }
+
+  .instruction strong { color: #E8E8F0; font-weight: 600; }
+
+  .contact-section {
+    width: 100%;
+    background: #111827;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #1A2040;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #556;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #1A2040;
+  }
+  .contact-row:last-child { border-bottom: none; }
+
+  .contact-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #1A2040;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #FF3B5C;
+    flex-shrink: 0;
+  }
+
+  .contact-name { font-size: 14px; color: #CCD; flex: 1; }
+  .contact-num { font-size: 12px; color: #556; }
+
+  .add-contact-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px dashed #1A2040;
+    background: transparent;
+    color: #556;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .add-contact-btn:hover { border-color: #FF3B5C; color: #FF3B5C; }
+
+  .transcript-box {
+    width: 100%;
+    background: #111827;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    border: 1px solid #1A2040;
+    min-height: 80px;
+    margin-bottom: 1rem;
+  }
+
+  .transcript-text {
+    font-size: 14px;
+    color: #CCD;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .transcript-text.placeholder { color: #334; font-style: normal; }
+
+  .keyword-flash {
+    display: inline-block;
+    background: rgba(255,59,92,0.15);
+    color: #FF3B5C;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .timer {
+    font-size: 36px;
+    font-weight: 700;
+    color: #FF3B5C;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .action-btn {
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+  .action-btn:active { transform: scale(0.97); }
+
+  .btn-stop {
+    background: #FF3B5C;
+    color: #fff;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-start {
+    background: #FF3B5C;
+    color: #fff;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-secondary {
+    background: #111827;
+    color: #8899BB;
+    border: 1px solid #1A2040;
+    font-size: 13px;
+    padding: 10px 24px;
+  }
+
+  .wa-preview {
+    width: 100%;
+    background: #111827;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    border: 1px solid #1A2040;
+    margin-bottom: 1rem;
+  }
+
+  .wa-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+  }
+
+  .wa-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+  .wa-title { font-size: 13px; color: #556; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .wa-message {
+    font-size: 13px;
+    color: #CCD;
+    line-height: 1.7;
+    background: #0A0F1E;
+    border-radius: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid #22c55e;
+  }
+
+  .wa-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .wa-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #052010;
+    border: 1px solid #0a3020;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .wa-link:hover { background: #073018; }
+
+  .wa-link-name { font-size: 14px; color: #CCD; }
+  .wa-link-action { font-size: 12px; color: #22c55e; font-weight: 600; }
+
+  .success-icon { font-size: 48px; margin-bottom: 1rem; }
+  .success-title { font-size: 20px; font-weight: 700; color: #22c55e; margin-bottom: 0.5rem; }
+  .success-sub { font-size: 14px; color: #556; text-align: center; margin-bottom: 1.5rem; }
+
+  .voice-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+  }
+
+  .bar {
+    width: 4px;
+    background: #FF3B5C;
+    border-radius: 2px;
+    animation: wave 0.8s ease-in-out infinite;
+  }
+  .bar:nth-child(1) { animation-delay: 0s; height: 8px; }
+  .bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
+  .bar:nth-child(3) { animation-delay: 0.2s; height: 24px; }
+  .bar:nth-child(4) { animation-delay: 0.3s; height: 16px; }
+  .bar:nth-child(5) { animation-delay: 0.4s; height: 8px; }
+
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+  }
+
+  .keyword-counter {
+    font-size: 13px;
+    color: #556;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .keyword-counter span { color: #FF3B5C; font-weight: 700; }
+
+  .modal-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    z-index: 10;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #111827;
+    border-radius: 14px;
+    padding: 1.5rem;
+    width: 280px;
+    border: 1px solid #1A2040;
+  }
+  .modal-title { font-size: 16px; font-weight: 700; color: #E8E8F0; margin-bottom: 1rem; }
+  .modal input {
+    width: 100%;
+    background: #0A0F1E;
+    border: 1px solid #1A2040;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #E8E8F0;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .modal input:focus { border-color: #FF3B5C; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 0.5rem; }
+  .modal-actions button { flex: 1; padding: 10px; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border: none; }
+  .btn-cancel { background: #1A2040; color: #8899BB; }
+  .btn-add { background: #FF3B5C; color: #fff; }
+</style>
+
+<div id="app">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">Suraksha — women's safety SOS app. Say help twice to start recording and send your location to trusted contacts.</h2>
+
+  <div class="top-bar">
+    <div class="app-name">SURAKSHA</div>
+    <div class="status-pill" id="statusPill">Standby</div>
+  </div>
+
+  <div class="screen active" id="screen-home">
+    <div class="orb-wrap" id="orbWrap" onclick="startListening()">
+      <div class="orb-ring r1" id="ring1"></div>
+      <div class="orb-ring r2" id="ring2"></div>
+      <div class="orb idle" id="orb">
+        <i class="ti ti-microphone orb-icon" aria-hidden="true"></i>
+        <span class="orb-label">Tap to arm</span>
+      </div>
+    </div>
+
+    <p class="instruction">Tap the orb, then say <strong>"help help"</strong> — recording starts automatically. Say <strong>"done"</strong> when finished.</p>
+
+    <div class="contact-section">
+      <div class="section-label">Emergency contacts</div>
+      <div id="contactList"></div>
+      <button class="add-contact-btn" onclick="openModal()">+ Add contact</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-listening">
+    <div class="orb-wrap">
+      <div class="orb-ring r1 pulse"></div>
+      <div class="orb-ring r2 pulse"></div>
+      <div class="orb listening-orb" style="border-color:#22c55e;">
+        <i class="ti ti-ear orb-icon" style="color:#22c55e" aria-hidden="true"></i>
+        <span class="orb-label" style="color:#22c55e">Listening</span>
+      </div>
+    </div>
+    <div class="keyword-counter">Say <span>"help help"</span> to start recording</div>
+    <div class="transcript-box">
+      <div class="transcript-text placeholder" id="listenTranscript">Listening for your voice...</div>
+    </div>
+    <button class="action-btn btn-secondary" onclick="cancelListening()">Cancel</button>
+  </div>
+
+  <div class="screen" id="screen-recording">
+    <div class="orb-wrap">
+      <div class="orb-ring r1 pulse"></div>
+      <div class="orb-ring r2 pulse"></div>
+      <div class="orb recording-orb">
+        <div class="voice-bars">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <span class="orb-label">Recording</span>
+      </div>
+    </div>
+    <div class="timer" id="timerDisplay">0:00</div>
+    <div class="transcript-box">
+      <div class="transcript-text" id="recordTranscript">Speak now — describe your location and the situation...</div>
+    </div>
+    <button class="action-btn btn-stop" onclick="stopRecording()">
+      <i class="ti ti-send" aria-hidden="true"></i> Done — Send alert
+    </button>
+    <button class="action-btn btn-secondary" onclick="cancelRecording()">Cancel</button>
+  </div>
+
+  <div class="screen" id="screen-send">
+    <div style="margin:1.5rem 0 1rem; text-align:center">
+      <div style="font-size:14px;color:#556;margin-bottom:0.5rem">Your message is ready</div>
+      <div style="font-size:13px;color:#334;margin-bottom:1rem">Open each contact on WhatsApp — message is pre-filled. Just tap send.</div>
+    </div>
+    <div class="wa-preview">
+      <div class="wa-header">
+        <div class="wa-dot"></div>
+        <div class="wa-title">Message preview</div>
+      </div>
+      <div class="wa-message" id="waMessagePreview">Loading...</div>
+    </div>
+    <div class="wa-links" id="waLinks"></div>
+    <button class="action-btn btn-secondary" style="margin-top:1rem;width:100%" onclick="resetApp()">Back to home</button>
+  </div>
+
+  <div class="screen" id="screen-done">
+    <div style="display:flex;flex-direction:column;align-items:center;margin-top:2rem">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Alert sent</div>
+      <div class="success-sub">Your emergency contacts have been notified with your location.</div>
+      <button class="action-btn btn-secondary" onclick="resetApp()">Back to home</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-title">Add emergency contact</div>
+      <input type="text" id="contactNameInput" placeholder="Name (e.g. Maa)" />
+      <input type="tel" id="contactNumInput" placeholder="WhatsApp number (+91...)" />
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-add" onclick="saveContact()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let contacts = [
+    { name: 'Maa', num: '+919876543210' },
+    { name: 'Papa', num: '+919876543211' }
+  ];
+
+  let recognition = null;
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let timerInterval = null;
+  let seconds = 0;
+  let transcriptFull = '';
+  let helpCount = 0;
+  let currentLocation = null;
+  let isRecording = false;
+  let listenTimeout = null;
+
+  function renderContacts() {
+    const list = document.getElementById('contactList');
+    list.innerHTML = contacts.map((c, i) =>
+      `<div class="contact-row">
+        <div class="contact-avatar">${c.name[0].toUpperCase()}</div>
+        <div class="contact-name">${c.name}</div>
+        <div class="contact-num">${c.num}</div>
+      </div>`
+    ).join('');
+  }
+
+  function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('contactNameInput').value = '';
+    document.getElementById('contactNumInput').value = '';
+  }
+
+  function saveContact() {
+    const name = document.getElementById('contactNameInput').value.trim();
+    const num = document.getElementById('contactNumInput').value.trim();
+    if (!name || !num) return;
+    contacts.push({ name, num });
+    renderContacts();
+    closeModal();
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + id).classList.add('active');
+  }
+
+  function setStatus(text, cls) {
+    const p = document.getElementById('statusPill');
+    p.textContent = text;
+    p.className = 'status-pill ' + (cls || '');
+  }
+
+  function getLocation() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) { resolve(null); return; }
+      navigator.geolocation.getCurrentPosition(
+        pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => resolve(null),
+        { timeout: 5000 }
+      );
+    });
+  }
+
+  function startListening() {
+    if (contacts.length === 0) {
+      alert('Please add at least one emergency contact first.');
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Voice recognition not supported in this browser. Use Chrome on Android/desktop.');
+      return;
+    }
+
+    helpCount = 0;
+    showScreen('listening');
+    setStatus('Listening', 'listening');
+
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-IN';
+
+    recognition.onresult = (event) => {
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const t = event.results[i][0].transcript.toLowerCase();
+        if (event.results[i].isFinal) {
+          if (t.includes('help')) {
+            helpCount++;
+            document.getElementById('listenTranscript').innerHTML =
+              `<span class="keyword-flash">HELP</span> detected (${helpCount}/2)`;
+            if (helpCount >= 2) {
+              recognition.stop();
+              beginRecording();
+              return;
+            }
+          }
+        } else {
+          interim = t;
+        }
+      }
+      if (interim && helpCount === 0) {
+        document.getElementById('listenTranscript').textContent = interim;
+      }
+    };
+
+    recognition.onerror = () => { cancelListening(); };
+    recognition.start();
+  }
+
+  function cancelListening() {
+    if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+    showScreen('home');
+    setStatus('Standby', '');
+  }
+
+  async function beginRecording() {
+    showScreen('recording');
+    setStatus('Recording', 'recording');
+    currentLocation = await getLocation();
+    transcriptFull = '';
+    seconds = 0;
+    document.getElementById('timerDisplay').textContent = '0:00';
+
+    timerInterval = setInterval(() => {
+      seconds++;
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2, '0');
+    }, 1000);
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-IN';
+
+    recognition.onresult = (event) => {
+      let full = '';
+      for (let i = 0; i < event.results.length; i++) {
+        full += event.results[i][0].transcript + ' ';
+      }
+      transcriptFull = full.trim();
+      document.getElementById('recordTranscript').textContent = transcriptFull || 'Listening...';
+
+      const latest = event.results[event.results.length - 1][0].transcript.toLowerCase();
+      if (event.results[event.results.length - 1].isFinal && latest.includes('done')) {
+        stopRecording();
+      }
+    };
+
+    recognition.onerror = () => {};
+    recognition.start();
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.start();
+    } catch(e) {}
+  }
+
+  function stopRecording() {
+    clearInterval(timerInterval);
+    if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') { mediaRecorder.stop(); }
+    showSendScreen();
+  }
+
+  function cancelRecording() {
+    clearInterval(timerInterval);
+    if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') { mediaRecorder.stop(); }
+    showScreen('home');
+    setStatus('Standby', '');
+  }
+
+  function showSendScreen() {
+    setStatus('Ready to send', 'sending');
+    showScreen('send');
+
+    const locText = currentLocation
+      ? `https://maps.google.com/?q=${currentLocation.lat},${currentLocation.lng}`
+      : 'Location unavailable';
+
+    const msg = `🚨 EMERGENCY ALERT from [Name]\n\nI need help right now.\n\n📍 My location: ${locText}\n\n🗣 My message: "${transcriptFull || 'No voice message recorded'}"\n\nPlease call me or come immediately.`;
+
+    document.getElementById('waMessagePreview').textContent = msg;
+
+    const encoded = encodeURIComponent(msg);
+    const linksEl = document.getElementById('waLinks');
+    linksEl.innerHTML = contacts.map(c => {
+      const num = c.num.replace(/[^0-9]/g, '');
+      const url = `https://wa.me/${num}?text=${encoded}`;
+      return `<a class="wa-link" href="${url}" target="_blank">
+        <span class="wa-link-name">${c.name} <span style="color:#556;font-size:12px">${c.num}</span></span>
+        <span class="wa-link-action">Open WhatsApp →</span>
+      </a>`;
+    }).join('');
+  }
+
+  function resetApp() {
+    transcriptFull = '';
+    currentLocation = null;
+    helpCount = 0;
+    seconds = 0;
+    isRecording = false;
+    showScreen('home');
+    setStatus('Standby', '');
+  }
+
+  renderContacts();
+</script>
