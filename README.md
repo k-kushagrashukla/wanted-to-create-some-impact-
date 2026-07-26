@@ -97,6 +97,17 @@ for applying in internships , jobs ...
 - that's why i build this free platform , right now it's not working properly but when i lauched it i got good response 
 <img width="1917" height="846" alt="image" src="https://github.com/user-attachments/assets/5ece5f61-5521-4edd-8ee5-573f25d0d8e0" />
 
+## 9) AI tutor
+- At this time i was thinking "what happens if small kids get learning from AI tutor" like an AI is talking to them with questions and they need to reply with answers
+- and then AI tutor will evaluate those answers and tell you whether you're correct or not , and the score on the basis of your judgement 
+- it's basically like AI-powered tutor screening system that conducts a voice-based interview and evaluates candidates on key teaching traits like clarity, patience, and communication
+- it also worked as an assessment for one company , and i reached the 2nd last round too but i got rejected bcz i feel i send this project personally to founder , and i dont know how but they never really select anyone for this , after two rounds 
+<img width="1393" height="791" alt="image" src="https://github.com/user-attachments/assets/393323f7-37bc-4f4d-ad56-2a354bb18fab" />
+
+
+
+  
+
 
 
 
