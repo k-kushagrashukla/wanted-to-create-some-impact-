@@ -104,6 +104,18 @@ for applying in internships , jobs ...
 - it also worked as an assessment for one company , and i reached the 2nd last round too but i got rejected bcz i feel i send this project personally to founder , and i dont know how but they never really select anyone for this , after two rounds 
 <img width="1393" height="791" alt="image" src="https://github.com/user-attachments/assets/393323f7-37bc-4f4d-ad56-2a354bb18fab" />
 
+## 10) PawsApp 
+- I built an AI app for dog owners :)
+- basically it uses AI to understand your dog's mood, remind you of walks and meals, and answer any question about your dog
+- i build this bcz of two reason , first i genuinely trying to build something which works properly ( people love it , so i can spend more time on it ) 
+second reason , for dogs and their owners , i was thinking - there should be an app which notify for my dog's daily habit + i can ask any question about my dog , without telling LLM again and again who is bruno , his age , breed etc . what i want was that i can ask any question , anytime and it can give me proper ans related to my dog breed 
+- it worked , and i got some good reviews too , but not too much by which i can spend money on it and publish it on PlayStore , bcz as i except LLM everything i used was totally free. That's why notification sometimes works , sometimes don't . 
+- also some people said to me , why we use this app when we can use other apps and for ai thing we can use chatgpt or gemini 
+- then i stopped working on this app , also it requires a good amount of downloads or i can say attraction , which i'm not able to get ( some founders also said to me , that it won't work) 
+- but if u want you can download the app from this site : https://paws-app-website.vercel.app/
+<img width="1892" height="870" alt="image" src="https://github.com/user-attachments/assets/4c9f523c-e4c7-4fa4-b666-12b42c93d48c" />
+
+
 
 
   
