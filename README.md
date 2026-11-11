@@ -115,6 +115,10 @@ second reason , for dogs and their owners , i was thinking - there should be an 
 - but if u want you can download the app from this site : https://paws-app-website.vercel.app/
 <img width="1892" height="870" alt="image" src="https://github.com/user-attachments/assets/4c9f523c-e4c7-4fa4-b666-12b42c93d48c" />
 
+----
+
+# I built all of these things during my 4-year engineering degree, and now it's time to move on to bigger and better projects :)
+
 
 
 
